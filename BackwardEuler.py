@@ -10,28 +10,33 @@ a = 1
 def func(x, t):
     """
     :param x: spatial variable
-    :param a: global constant
+    :param t: temporal variable
     :return: function
     """
     return a * x
 
 
 def Dfunc(x, t):
+    """
+    :param x: spatial variable
+    :param t: temporal variable
+    :return: function
+    """
     return a
 
 
 def newtons_method(f, Df, w_0, N, epsilon=1e-5):
     """
-
-    :param f:
-    :param Df:
-    :param w_0:
-    :param epsilon:
-    :param N:
-    :return:
+    Implementation of Newton's method for finding
+    the roots of a function.
+    :param f: the function we want to find the roots of
+    :param Df: derivative of f
+    :param w_0: initial guess
+    :param epsilon: tolerance
+    :param N: number of iterations
+    :return: root of f
     """
 
-    # We don't really need a list of all values
     w = w_0
 
     for i in range(N):
@@ -46,13 +51,15 @@ def newtons_method(f, Df, w_0, N, epsilon=1e-5):
 
 def backward_euler(f, Df, eta, k, N, M):
     """
-    :param f:
-    :param Df:
-    :param eta:
-    :param k:
-    :param N:
-    :param M:
-    :return:
+    Implementation of backward Euler. This is a simple
+    technique used to solve differential equations numerically.
+    :param f: function. RHS of the differential equation
+    :param Df: derivative of f
+    :param eta: initial condition
+    :param k: time step
+    :param N: total number of iterations
+    :param M: total number of Newton's method iterations
+    :return: list of values
     """
     U = np.zeros(N + 1)
     U[0] = eta
@@ -67,14 +74,16 @@ def backward_euler(f, Df, eta, k, N, M):
 
 def backward_euler_err(f, Df, eta, k, N, M):
     """
-
-    :param f:
-    :param Df:
-    :param eta:
-    :param k:
-    :param N:
-    :param M:
-    :return:
+    Implementation of backward Euler. This is a simple
+    technique used to solve differential equations numerically.
+    The function also calculates an error.
+    :param f: function. RHS of the differential equation
+    :param Df: derivative of f
+    :param eta: initial condition
+    :param k: time step
+    :param N: total number of iterations
+    :param M: total number of Newton's method iterations
+    :return: list of values
     """
     U = np.zeros(N + 1)
     err = np.zeros(N + 1)
@@ -92,14 +101,15 @@ def backward_euler_err(f, Df, eta, k, N, M):
 
 def backward_euler_system(f, Df, eta, k, N, M):
     """
-
-    :param f:
-    :param Df:
-    :param eta:
-    :param k:
-    :param N:
-    :param M:
-    :return:
+    Implementation of backward Euler to solve a system
+    of differential equations numerically.
+    :param f: function. RHS of the differential equation
+    :param Df: derivative of f
+    :param eta: initial condition
+    :param k: time step
+    :param N: total number of iterations
+    :param M: total number of Newton's method iterations
+    :return: list of values
     """
     M = len(eta)
     U = np.zeros(M, N + 1)
@@ -115,8 +125,11 @@ def backward_euler_system(f, Df, eta, k, N, M):
 
     return U
 
+
+# The rest of the code is for timing studies, errors, and plots
+# using the backward Euler functions.
 # Time each of these runs separately. Iterations vs time passed.
-# Same thing with forward euler runs.
+
 start = time.perf_counter()
 U_1 = backward_euler(func, Dfunc, 1.0, 0.1, 20, 400)
 U_2 = backward_euler(func, Dfunc, 1.0, 0.05, 40, 400)
@@ -131,7 +144,6 @@ den = np.abs(U_2[-1] - U_3[-1])
 error = num / den
 
 print(error)
-
 
 # Plot time on the X-axis
 fig, ax = plt.subplots()

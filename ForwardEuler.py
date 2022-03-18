@@ -21,7 +21,7 @@ def forward_euler(f, eta, k, N):
     """
     Function to perform forward Euler. This is a simple technique
     to solve differential equations numerically.
-    :param f: function. RHS of differential equation.
+    :param f: function. RHS of differential equation
     :param eta: initial value
     :param k: time step
     :param N: number of iterations
@@ -41,7 +41,7 @@ def forward_euler_err(f, eta, k, N):
     Function to perform forward Euler. This is a simple technique
     to solve differential equations numerically.
     The function also calculates an error.
-    :param f: function. RHS of differential equation.
+    :param f: function. RHS of differential equation
     :param eta: initial value
     :param k: time step
     :param N: number of iterations
@@ -83,7 +83,9 @@ def forward_euler_system(f, eta, k, N):
     return U
 
 
-# Try bad timesteps and compare them to good ones
+# The rest of the code is for timing studies, errors, and plots
+# using the forward Euler functions.
+
 start = time.perf_counter()
 U_1, err_1 = forward_euler_err(func, 3, 1, 100)
 U_2, err_2 = forward_euler_err(func, 3, 0.5, 200)
@@ -92,14 +94,12 @@ end = time.perf_counter()
 
 print(end - start)
 
-
 # Calculate error ratios - Section A.6.1 of the textbook
 num = np.abs(U_1[-1] - U_2[-1])
 den = np.abs(U_2[-1] - U_3[-1])
 error = num / den
 
 print(error)
-
 
 # Plot time on the X-axis
 fig, ax = plt.subplots()  # Create a figure and an axes.
@@ -111,7 +111,6 @@ ax.set_ylabel('Function value')
 ax.set_title("Forward Euler")
 ax.legend()
 plt.show()
-
 
 # Missing abs()
 fig, ax = plt.subplots()  # Create a figure and axes.
