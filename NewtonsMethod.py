@@ -44,7 +44,7 @@ def nd_newtons_method(f, J, w_0, N, epsilon=1e-5):
 
     while i < N and abs(norm) > epsilon:
         delta = np.linalg.solve(J(w), val)
-        w = w + delta
+        w = w - delta
         val = f(w)
         norm = np.linalg.norm(val, ord=2)
         i += 1
@@ -55,4 +55,12 @@ def nd_newtons_method(f, J, w_0, N, epsilon=1e-5):
     return w
 
 
+def func(X):
+    return np.array([X[0] + X[1] - 4, 2 * X[0] - X[1] + 2])
 
+
+def J(X):
+    return np.array([[1, 1], [2, -1]])
+
+
+print(nd_newtons_method(func, J, (0, 0), 100))

@@ -60,7 +60,7 @@ def backward_euler_err(f, Df, eta, k, N, M):
     :param k: time step
     :param N: total number of iterations
     :param M: total number of Newton's method iterations
-    :return: list of values
+    :return: list of values and list of errors
     """
     U = np.zeros(N + 1)
     err = np.zeros(N + 1)
@@ -109,26 +109,26 @@ def backward_euler_system(f, Df, eta, k, N, M):
 times = np.empty(4)
 
 start = time.perf_counter()
-U_1, err_1 = backward_euler_err(func, Dfunc, 3, 0.1, 1000, 1000)
+U_1, err_1 = backward_euler_err(func, Dfunc, 3, 0.1, 100, 10000)
 end = time.perf_counter()
-np.append(times, (end - start))
+times[0] = (end - start)
 
 start = time.perf_counter()
-U_2, err_2 = backward_euler_err(func, Dfunc, 3, 0.05, 2000, 2000)
+U_2, err_2 = backward_euler_err(func, Dfunc, 3, 0.05, 200, 10000)
 end = time.perf_counter()
-np.append(times, (end - start))
+times[1] = (end - start)
 
 start = time.perf_counter()
-U_3, err_3 = backward_euler_err(func, Dfunc, 3, 0.025, 4000, 4000)
+U_3, err_3 = backward_euler_err(func, Dfunc, 3, 0.025, 400, 10000)
 end = time.perf_counter()
-np.append(times, (end - start))
+times[2] = (end - start)
 
 start = time.perf_counter()
-U_4, err_4 = backward_euler_err(func, Dfunc, 3, 0.0125, 8000, 8000)
+U_4, err_4 = backward_euler_err(func, Dfunc, 3, 0.0125, 800, 10000)
 end = time.perf_counter()
-np.append(times, (end - start))
+times[3] = (end - start)
 
-
+print(times)
 iters = np.array([1000, 2000, 4000, 8000])
 plt.title("Timing")
 plt.xlabel("Iterations")
