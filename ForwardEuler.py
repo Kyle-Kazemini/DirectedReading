@@ -1,7 +1,7 @@
 import time
-
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 # global constants here
 a = 1.0
@@ -86,13 +86,36 @@ def forward_euler_system(f, eta, k, N):
 # The rest of the code is for timing studies, errors, and plots
 # using the forward Euler functions.
 
-start = time.perf_counter()
-U_1, err_1 = forward_euler_err(func, 3, 1, 100)
-U_2, err_2 = forward_euler_err(func, 3, 0.5, 200)
-U_3, err_3 = forward_euler_err(func, 3, 0.25, 400)
-end = time.perf_counter()
+times = np.empty(4)
 
-print(end - start)
+start = time.perf_counter()
+U_1, err_1 = forward_euler_err(func, 3, 0.1, 1000)
+end = time.perf_counter()
+np.append(times, (end - start))
+
+start = time.perf_counter()
+U_2, err_2 = forward_euler_err(func, 3, 0.05, 2000)
+end = time.perf_counter()
+np.append(times, (end - start))
+
+start = time.perf_counter()
+U_3, err_3 = forward_euler_err(func, 3, 0.025, 4000)
+end = time.perf_counter()
+np.append(times, (end - start))
+
+start = time.perf_counter()
+U_4, err_4 = forward_euler_err(func, 3, 0.0125, 8000)
+end = time.perf_counter()
+np.append(times, (end - start))
+
+
+iters = np.array([1000, 2000, 4000, 8000])
+plt.title("Timing")
+plt.xlabel("Iterations")
+plt.ylabel("Time Elapsed")
+plt.plot(iters, times)
+plt.show()
+
 
 # Calculate error ratios - Section A.6.1 of the textbook
 num = np.abs(U_1[-1] - U_2[-1])
@@ -100,6 +123,7 @@ den = np.abs(U_2[-1] - U_3[-1])
 error = num / den
 
 print(error)
+
 
 # Plot time on the X-axis
 fig, ax = plt.subplots()  # Create a figure and an axes.

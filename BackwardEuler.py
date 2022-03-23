@@ -1,7 +1,8 @@
 import time
-
-import matplotlib.pyplot as plt
 import numpy as np
+from NewtonsMethod import newtons_method
+import matplotlib.pyplot as plt
+
 
 # global constants here
 a = 1
@@ -23,30 +24,6 @@ def Dfunc(x, t):
     :return: function
     """
     return a
-
-
-def newtons_method(f, Df, w_0, N, epsilon=1e-5):
-    """
-    Implementation of Newton's method for finding
-    the roots of a function.
-    :param f: the function we want to find the roots of
-    :param Df: derivative of f
-    :param w_0: initial guess
-    :param epsilon: tolerance
-    :param N: number of iterations
-    :return: root of f
-    """
-
-    w = w_0
-
-    for i in range(N):
-        if np.abs(f(w)) < epsilon:
-            return w
-
-        w = w - (f(w) / Df(w))
-
-    print("No solution found after max number of iterations.")
-    return w
 
 
 def backward_euler(f, Df, eta, k, N, M):
@@ -128,15 +105,37 @@ def backward_euler_system(f, Df, eta, k, N, M):
 
 # The rest of the code is for timing studies, errors, and plots
 # using the backward Euler functions.
-# Time each of these runs separately. Iterations vs time passed.
+
+times = np.empty(4)
 
 start = time.perf_counter()
-U_1 = backward_euler(func, Dfunc, 1.0, 0.1, 20, 400)
-U_2 = backward_euler(func, Dfunc, 1.0, 0.05, 40, 400)
-U_3 = backward_euler(func, Dfunc, 1.0, 0.025, 80, 400)
+U_1, err_1 = backward_euler_err(func, Dfunc, 3, 0.1, 1000, 1000)
 end = time.perf_counter()
+np.append(times, (end - start))
 
-print(end - start)
+start = time.perf_counter()
+U_2, err_2 = backward_euler_err(func, Dfunc, 3, 0.05, 2000, 2000)
+end = time.perf_counter()
+np.append(times, (end - start))
+
+start = time.perf_counter()
+U_3, err_3 = backward_euler_err(func, Dfunc, 3, 0.025, 4000, 4000)
+end = time.perf_counter()
+np.append(times, (end - start))
+
+start = time.perf_counter()
+U_4, err_4 = backward_euler_err(func, Dfunc, 3, 0.0125, 8000, 8000)
+end = time.perf_counter()
+np.append(times, (end - start))
+
+
+iters = np.array([1000, 2000, 4000, 8000])
+plt.title("Timing")
+plt.xlabel("Iterations")
+plt.ylabel("Time Elapsed")
+plt.plot(iters, times)
+plt.show()
+
 
 # Calculate error ratios - Section A.6.1 of the textbook
 num = np.abs(U_1[-1] - U_2[-1])
@@ -144,6 +143,7 @@ den = np.abs(U_2[-1] - U_3[-1])
 error = num / den
 
 print(error)
+
 
 # Plot time on the X-axis
 fig, ax = plt.subplots()
