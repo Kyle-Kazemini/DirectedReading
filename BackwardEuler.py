@@ -1,8 +1,7 @@
 import time
 import numpy as np
-from NewtonsMethod import newtons_method
+from NewtonsMethod import *
 import matplotlib.pyplot as plt
-
 
 # global constants here
 a = 1
@@ -93,12 +92,10 @@ def backward_euler_system(f, Df, eta, k, N, M):
     U[:, 0] = eta
 
     for i in range(N):
-        g_i = lambda u: u - k * f(u, i * k) - U[i]
-        Dg_i = lambda u: 1 - k * Df(u, i * k)
+        def g(u): return u - k * f(u, i * k) - U[i]
+        def Dg(u): return 1 - k * Df(u, i * k)
 
-        for j in range(M):
-            w = U[i]
-            U[i + 1] = newtons_method(g_i, Dg_i, w, M)
+        U[i + 1] = nd_newtons_method(g, Dg, U[i], M)
 
     return U
 
@@ -136,14 +133,12 @@ plt.ylabel("Time Elapsed")
 plt.plot(iters, times)
 plt.show()
 
-
 # Calculate error ratios - Section A.6.1 of the textbook
 num = np.abs(U_1[-1] - U_2[-1])
 den = np.abs(U_2[-1] - U_3[-1])
 error = num / den
 
 print(error)
-
 
 # Plot time on the X-axis
 fig, ax = plt.subplots()

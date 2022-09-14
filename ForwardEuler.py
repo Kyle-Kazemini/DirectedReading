@@ -83,6 +83,12 @@ def forward_euler_system(f, eta, k, N):
     return U
 
 
+def SIR(x, t, gamma, beta):
+    return np.array([-beta * x[0] * x[1],
+                     beta * x[0] * x[1] - gamma * x[1],
+                     gamma * x[1]])
+
+
 # The rest of the code is for timing studies, errors, and plots
 # using the forward Euler functions.
 
@@ -135,10 +141,19 @@ ax.legend()
 plt.show()
 
 # Missing abs()
+# fig, ax = plt.subplots()  # Create a figure and axes.
+# ax.plot(np.arange(0, 1 * len(err_1), 1), err_1, label=str(len(U_1)) + ' iterations')
+# ax.plot(np.arange(0, 0.5 * len(err_2), 0.5), err_2, label=str(len(U_2)) + ' iterations')
+# ax.plot(np.arange(0, 0.25 * len(err_3), 0.25), err_3, label=str(len(U_3)) + ' iterations')
+# ax.set_xlabel('Time')
+# ax.set_ylabel('Error')
+# ax.set_title("Forward Euler")
+# ax.legend()
+# plt.show()
+
 fig, ax = plt.subplots()  # Create a figure and axes.
-ax.plot(np.arange(0, 1 * len(err_1), 1), err_1, label=str(len(U_1)) + ' iterations')
-ax.plot(np.arange(0, 0.5 * len(err_2), 0.5), err_2, label=str(len(U_2)) + ' iterations')
-ax.plot(np.arange(0, 0.25 * len(err_3), 0.25), err_3, label=str(len(U_3)) + ' iterations')
+ax.plot(np.arange(0, 1 * len(err_1), 1), err_1, label="Preconditioner")
+ax.plot(np.arange(0, 0.25 * len(err_3), 0.25), err_3, label="No Preconditioner")
 ax.set_xlabel('Time')
 ax.set_ylabel('Error')
 ax.set_title("Forward Euler")
