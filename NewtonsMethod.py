@@ -28,7 +28,7 @@ def newtons_method(f, Df, w_0, N, epsilon=1e-5):
 def nd_newtons_method(f, J, w_0, N, epsilon=1e-5):
     """
     Implementation of Newton's method for finding
-    the roots of a multi-dimensional function.
+    the roots of a multidimensional function.
     :param f: the function we want to find the roots of
     :param J: Jacobian of f
     :param w_0: initial guess
@@ -61,6 +61,3 @@ def func(X):
 
 def J(X):
     return np.array([[1, 1], [2, -1]])
-
-
-print(nd_newtons_method(func, J, (0, 0), 100))
