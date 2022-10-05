@@ -1,6 +1,7 @@
 import time
 import matplotlib.pyplot as plt
 from BackwardEuler import *
+from ForwardEuler import *
 
 times = np.empty(4)
 
