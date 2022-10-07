@@ -80,17 +80,16 @@ def trapezoidal_rule_system(f, Df, eta, k, N, M):
     :param eta: initial condition
     :param k: time step
     :param N: total number of iterations
-    :param M: total number of Newton's method iterations
+    :param M:
     :return: list of values
     """
-    M = len(eta)
-    U = np.zeros(M, N + 1)
+    U = np.zeros([M, N + 1])
     U[:, 0] = eta
 
     for i in range(N):
-        def g(u): return u
+        def g(u): return u - U[:, i] - (k / 2) * (f(u, i * k) + f(U[:, i], i * k))
 
-        def Dg(u): return 1
+        def Dg(u): return 1 - (k / 2) * Df(u, i * k)
 
         U[:, i + 1] = nd_newtons_method(g, Dg, U[:, i], M)
 
