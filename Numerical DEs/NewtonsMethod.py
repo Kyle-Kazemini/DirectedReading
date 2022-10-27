@@ -43,6 +43,9 @@ def nd_newtons_method(f, J, w_0, N, epsilon=1e-5):
     norm = np.linalg.norm(val, ord=2)
 
     while i < N and abs(norm) > epsilon:
+        print(J(w))
+        print(val)
+        # print(np.size(f(w)))
         delta = np.linalg.solve(J(w), val)
         w = w - delta
         val = f(w)

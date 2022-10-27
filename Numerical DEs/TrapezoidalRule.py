@@ -22,6 +22,14 @@ def Dfunc(x, t):
     return a
 
 
+def nd_func(x, t):
+    return np.array(a * x[0], a * x[1])
+
+
+def nd_Dfunc(x, t):
+    return a * np.identity(2)
+
+
 def trapezoidal_rule(f, Df, eta, k, N, M):
     """
     Implementation of Trapezoidal Rule. This is a simple
@@ -80,14 +88,17 @@ def trapezoidal_rule_system(f, Df, eta, k, N, M):
     :param eta: initial condition
     :param k: time step
     :param N: total number of iterations
-    :param M:
+    :param M: Newton's method steps
     :return: list of values
     """
-    U = np.zeros([M, N + 1])
+    U = np.zeros([len(eta), N + 1])
     U[:, 0] = eta
 
     for i in range(N):
         def g(u): return u - U[:, i] - (k / 2) * (f(u, i * k) + f(U[:, i], i * k))
+        # print(g(U[:, 0]))
+        print(U[:, i])
+        # print(f(U[:, i], 0))
 
         def Dg(u): return 1 - (k / 2) * Df(u, i * k)
 

@@ -5,6 +5,20 @@ from BackwardEuler import *
 from ForwardEuler import *
 
 
+nd_1 = trapezoidal_rule_system(nd_func, nd_Dfunc, [3, 3], 0.01, 2, 2)
+
+#nd_2 = trapezoidal_rule_system(func, Dfunc, 3, 0.05, 200, np.array(0))
+
+#nd_3 = trapezoidal_rule_system(func, Dfunc, 3, 0.025, 400, np.array(0))
+print(nd_1)
+# Calculate error ratios - Section A.6.1 of the textbook
+# num = np.abs(nd_1[-1] - nd_2[-1])
+# den = np.abs(nd_2[-1] - nd_3[-1])
+# error = num / den
+#
+# print(error)
+
+
 U_1 = trapezoidal_rule(func, Dfunc, 3, 0.1, 100, 2)
 
 U_2 = trapezoidal_rule(func, Dfunc, 3, 0.05, 200, 2)
